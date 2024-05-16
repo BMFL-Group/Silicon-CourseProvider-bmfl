@@ -23,7 +23,6 @@ public class CourseType : ObjectType<CourseEntity>
         descriptor.Field(c => c.NumberOfLikes).Type<IntType>();
         descriptor.Field(c => c.Authors).Type<ListType<AuthorType>>();
         descriptor.Field(c => c.Content).Type<ContentType>();
-        //descriptor.Field(c => c.ProgramDetails).Type<ProgramDetailsType>();
     }
 }
 public class AuthorType : ObjectType<AuthorEntity>

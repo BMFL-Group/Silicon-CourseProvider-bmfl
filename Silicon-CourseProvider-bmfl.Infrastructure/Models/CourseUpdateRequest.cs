@@ -19,7 +19,6 @@ public class CourseUpdateRequest
     public int NumberOfLikes { get; set; }
     public virtual List<AuthorUpdateRequest>? Authors { get; set; }
     public virtual ContentUpdateRequest? Content { get; set; }
-    //public virtual ProgramDetailsUpdateRequest? ProgramDetails { get; set; }
 }
 
 public class AuthorUpdateRequest
@@ -30,7 +29,7 @@ public class AuthorUpdateRequest
 public class ContentUpdateRequest
 {
     public string? Description { get; set; }
-    public string[]? Courseincludes { get; set; }
+    public string[]? CourseIncludes { get; set; }
     public virtual List<ProgramDetailsUpdateRequest>? ProgramDetails { get; set; }
 }
 

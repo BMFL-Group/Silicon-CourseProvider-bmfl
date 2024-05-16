@@ -14,26 +14,32 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
 
     public async Task<Course> CreateCourseAsync(CourseCreateRequest request)
     {
-        if (request != null)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var entity = CourseFactory.Create(request);
-            try
-            {
-                var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Title == request.Title);
-                if ( existingEntity == null)
-                {
-                    context.Courses.Add(entity);
-                    await context.SaveChangesAsync();
-                    return CourseFactory.Create(entity);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"ERROR: CourseService.CreateCourseAsync() :: {ex.Message}");
-            }
-        }
-        return null!;
+        using var context = _contextFactory.CreateDbContext();
+        var entity = CourseFactory.Create(request);
+        context.Courses.Add(entity);
+        await context.SaveChangesAsync();
+        return CourseFactory.Create(entity);
+
+        //if (request != null)
+        //{
+        //    using var context = _contextFactory.CreateDbContext();
+        //    var entity = CourseFactory.Create(request);
+        //    try
+        //    {
+        //        var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Title == request.Title);
+        //        if ( existingEntity == null)
+        //        {
+        //            context.Courses.Add(entity);
+        //            await context.SaveChangesAsync();
+        //            return CourseFactory.Create(entity);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"ERROR: CourseService.CreateCourseAsync() :: {ex.Message}");
+        //    }
+        //}
+        //return null!;
     }
 
 
@@ -44,6 +50,7 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         try
         {
             var courses = await context.Courses.ToListAsync();
+            return CourseFactory.Create(courses);
             if (courses != null && courses.Count() > 0)
             {
                 //return courses.Select(CourseFactory.Create);

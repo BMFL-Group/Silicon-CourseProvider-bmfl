@@ -31,7 +31,7 @@ public static class CourseFactory
             Content = request.Content == null ? null! : new ContentEntity
             {
                 Description = request.Content?.Description,
-                Courseincludes = request.Content?.Courseincludes,
+                Courseincludes = request.Content?.CourseIncludes,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,
@@ -68,7 +68,7 @@ public static class CourseFactory
             Content = request.Content == null ? null! : new ContentEntity
             {
                 Description = request.Content?.Description,
-                Courseincludes = request.Content?.Courseincludes,
+                Courseincludes = request.Content?.CourseIncludes,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,

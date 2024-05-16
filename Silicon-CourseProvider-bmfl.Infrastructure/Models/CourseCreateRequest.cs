@@ -18,7 +18,6 @@ public class CourseCreateRequest
     public int NumberOfLikes { get; set; }
     public virtual List<AuthorCreateRequest>? Authors { get; set; }
     public virtual ContentCreateRequest? Content { get; set; }
-    //public virtual ProgramDetailsCreateRequest? ProgramDetails { get; set; }
 }
 
 public class AuthorCreateRequest
@@ -29,7 +28,7 @@ public class AuthorCreateRequest
 public class ContentCreateRequest
 {
     public string? Description { get; set; }
-    public string[]? Courseincludes { get; set; }
+    public string[]? CourseIncludes { get; set; }
     public virtual List<ProgramDetailsCreateRequest>? ProgramDetails { get; set; }
 }
 
