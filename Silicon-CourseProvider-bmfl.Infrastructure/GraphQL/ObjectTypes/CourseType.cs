@@ -38,7 +38,7 @@ public class ContentType : ObjectType<ContentEntity>
     protected override void Configure(IObjectTypeDescriptor<ContentEntity> descriptor)
     {
         descriptor.Field(c => c.Description).Type<StringType>();
-        descriptor.Field(c => c.Courseincludes).Type<ListType<StringType>>();
+        descriptor.Field(c => c.CourseIncludes).Type<ListType<StringType>>();
         descriptor.Field(c => c.ProgramDetails).Type<ListType<ProgramDetailsType>>();
     }
 }

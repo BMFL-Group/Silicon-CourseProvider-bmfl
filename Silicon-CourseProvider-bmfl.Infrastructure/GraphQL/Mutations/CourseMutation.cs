@@ -13,18 +13,6 @@ public class CourseMutation(ICourseService courseService)
     {
                 var result = await _courseService.CreateCourseAsync(request);
                 return result;
-        //try
-        //{
-        //    if (request != null)
-        //    {
-        //        if (result != null)
-        //        {
-        //        }               
-        //    }
-        //}
-        //catch
-        //{}
-        //return null!;
     }
 
     [GraphQLName("updateCourse")]
@@ -32,18 +20,6 @@ public class CourseMutation(ICourseService courseService)
     {
                 var result = await _courseService.UpdateCourseAsync(request);
                 return result;
-        //try
-        //{
-        //    if (request != null)
-        //    {
-        //        if (result != null)
-        //        {
-        //        }              
-        //    }
-        //}
-        //catch
-        //{}
-        //return null!;
     }
 
     [GraphQLName("deleteCourse")]
@@ -51,18 +27,6 @@ public class CourseMutation(ICourseService courseService)
     {
                 var result = await _courseService.DeleteCourseAsync(id);
                 return result;
-        //try
-        //{
-        //    if (!string.IsNullOrEmpty(id))
-        //    {
-        //        if (result)
-        //        {
-        //        }
-        //    }            
-        //}
-        //catch
-        //{}
-        //return false;
     }
 
 }

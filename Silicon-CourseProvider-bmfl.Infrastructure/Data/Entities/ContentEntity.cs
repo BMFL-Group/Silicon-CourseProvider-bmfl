@@ -3,6 +3,6 @@
 public class ContentEntity
 {
     public string? Description { get; set; }
-    public string[]? Courseincludes { get; set; }
+    public string[]? CourseIncludes { get; set; }
     public virtual List<ProgramDetailsEntity>? ProgramDetails { get; set; }
 }

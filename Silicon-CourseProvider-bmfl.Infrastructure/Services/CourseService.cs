@@ -15,31 +15,11 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
     public async Task<Course> CreateCourseAsync(CourseCreateRequest request)
     {
         using var context = _contextFactory.CreateDbContext();
+
         var entity = CourseFactory.Create(request);
         context.Courses.Add(entity);
         await context.SaveChangesAsync();
         return CourseFactory.Create(entity);
-
-        //if (request != null)
-        //{
-        //    using var context = _contextFactory.CreateDbContext();
-        //    var entity = CourseFactory.Create(request);
-        //    try
-        //    {
-        //        var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Title == request.Title);
-        //        if ( existingEntity == null)
-        //        {
-        //            context.Courses.Add(entity);
-        //            await context.SaveChangesAsync();
-        //            return CourseFactory.Create(entity);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"ERROR: CourseService.CreateCourseAsync() :: {ex.Message}");
-        //    }
-        //}
-        //return null!;
     }
 
 
@@ -47,99 +27,48 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
     {
         using var context = _contextFactory.CreateDbContext();
 
-        try
-        {
-            var courses = await context.Courses.ToListAsync();
-            return CourseFactory.Create(courses);
-            if (courses != null && courses.Count() > 0)
-            {
-                //return courses.Select(CourseFactory.Create);
-                return CourseFactory.Create(courses);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"ERROR: CourseService.GetAllCoursesAsync() :: {ex.Message}");
-        }
-        return null!;    
+        var courses = await context.Courses.ToListAsync();
+        return CourseFactory.Create(courses);
+
     }
 
     public async Task<Course> GetCoursebyIdAsync(string id)
     {
-        if (!string.IsNullOrEmpty(id))
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            try
-            {
-                var course = await context.Courses.FirstOrDefaultAsync(x => x.Id == id);
-                if (course != null)
-                {
-                    return CourseFactory.Create(course);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"ERROR: CourseService.GetCoursebyIdAsync() :: {ex.Message}");
-            }
-        }
-        return null!;
+        using var context = _contextFactory.CreateDbContext();
+        var course = await context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+        return CourseFactory.Create(course!);
     }
 
     public async Task<Course> UpdateCourseAsync(CourseUpdateRequest request)
     {
-        if (request != null)
+        using var context = _contextFactory.CreateDbContext();
+        var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id);
+        if (existingEntity != null)
         {
-            using var context = _contextFactory.CreateDbContext();
-
             var updatedEntity = CourseFactory.Create(request);
-            var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id);
-            if (existingEntity != null)
+            updatedEntity.Id = existingEntity.Id;
+            context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+            context.Entry(existingEntity).State = EntityState.Modified;
+            var result = await context.SaveChangesAsync();
+            if(result == 1)
             {
-                updatedEntity.Id = existingEntity.Id;
-                context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-                try
-                {
-                    await context.SaveChangesAsync();
-                    return CourseFactory.Create(updatedEntity);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"ERROR: CourseService.UpdateCourseAsync() :: {ex.Message}");
-                }
+                string bla = "";
+                return CourseFactory.Create(updatedEntity);
             }
         }
-        return null!;
+        
+        return null!;                
     }
     public async Task<bool> DeleteCourseAsync(string id)
     {
-        if (!string.IsNullOrEmpty(id))
+        using var context = _contextFactory.CreateDbContext();
+        var entity = await context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        if (entity != null)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var entity = await context.Courses.FirstOrDefaultAsync(c => c.Id == id);
-            if(entity != null)
-            {
-                context.Courses.Remove(entity);
-                try
-                {
-                    await context.SaveChangesAsync();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"ERROR: CourseService.DeleteCourseAsync() :: {ex.Message}");
-                }
-            }
+            context.Courses.Remove(entity);
+            await context.SaveChangesAsync();
         }
-        return false!;
+            
+        return true;        
     }
 }
-
-//public interface ICourseService
-//{
-//    Task<Course> CreateCourseAsync(CourseCreateRequest request);
-//    Task<IEnumerable<Course>> GetAllCoursesAsync();
-//    Task<Course> GetCoursebyIdAsync(string id);
-//    Task<Course> UpdateCourseAsync(CourseUpdateRequest request);
-//    Task<bool> DeleteCourseAsync(string id);
-//}
