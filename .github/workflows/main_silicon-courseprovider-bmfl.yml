@@ -39,4 +39,4 @@ jobs:
           app-name: 'silicon-courseprovider-bmfl'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9BBB0E8B5D614DAFB4022D2021C74878 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C6654DFC454C4E60A5D6C5827288ADDC }}
