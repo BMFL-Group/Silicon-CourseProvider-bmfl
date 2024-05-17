@@ -23,7 +23,6 @@ public class CourseType : ObjectType<CourseEntity>
         descriptor.Field(c => c.NumberOfLikes).Type<IntType>();
         descriptor.Field(c => c.Authors).Type<ListType<AuthorType>>();
         descriptor.Field(c => c.Content).Type<ContentType>();
-        //descriptor.Field(c => c.ProgramDetails).Type<ProgramDetailsType>();
     }
 }
 public class AuthorType : ObjectType<AuthorEntity>
@@ -39,7 +38,7 @@ public class ContentType : ObjectType<ContentEntity>
     protected override void Configure(IObjectTypeDescriptor<ContentEntity> descriptor)
     {
         descriptor.Field(c => c.Description).Type<StringType>();
-        descriptor.Field(c => c.Courseincludes).Type<ListType<StringType>>();
+        descriptor.Field(c => c.CourseIncludes).Type<ListType<StringType>>();
         descriptor.Field(c => c.ProgramDetails).Type<ListType<ProgramDetailsType>>();
     }
 }

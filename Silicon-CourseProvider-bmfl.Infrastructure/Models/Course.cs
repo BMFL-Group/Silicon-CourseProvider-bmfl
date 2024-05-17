@@ -30,7 +30,7 @@ public class Author
 public class Content
 {
     public string? Description { get; set; }
-    public string[]? Courseincludes { get; set; }
+    public string[]? CourseIncludes { get; set; }
     public virtual List<ProgramDetails>? ProgramDetails { get; set; }
 }
 

@@ -1,4 +1,5 @@
-﻿using Silicon_CourseProvider_bmfl.Infrastructure.Data.Entities;
+﻿using Azure.Core;
+using Silicon_CourseProvider_bmfl.Infrastructure.Data.Entities;
 using Silicon_CourseProvider_bmfl.Infrastructure.Models;
 
 namespace Silicon_CourseProvider_bmfl.Infrastructure.Factories;
@@ -31,7 +32,7 @@ public static class CourseFactory
             Content = request.Content == null ? null! : new ContentEntity
             {
                 Description = request.Content?.Description,
-                Courseincludes = request.Content?.Courseincludes,
+                CourseIncludes = request.Content?.CourseIncludes,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,
@@ -43,6 +44,16 @@ public static class CourseFactory
     }
     public static CourseEntity Create(CourseUpdateRequest request)
     {
+        List<AuthorEntity> authors = [];
+        
+        if(request.Authors != null && request.Authors.Count > 0)
+        {
+            foreach(var author in request.Authors)
+            {
+                authors.Add(new AuthorEntity { Name = author.Name });
+            }
+        }     
+
         return new CourseEntity()
         {
             Id = request.Id,
@@ -61,14 +72,19 @@ public static class CourseFactory
             NumberOfReviews = request.NumberOfReviews,
             NumberOfLikes = request.NumberOfLikes,
 
-            Authors = request.Authors?.Select(a => new AuthorEntity
-            {
-                Name = a.Name,
-            }).ToList(),
+
+
+            Authors = authors,
+
+            //Authors = request.Authors?.Select(a => new AuthorEntity
+            //{
+            //    Name = a.Name,
+            //}).ToList(),
+
             Content = request.Content == null ? null! : new ContentEntity
             {
                 Description = request.Content?.Description,
-                Courseincludes = request.Content?.Courseincludes,
+                CourseIncludes = request.Content?.CourseIncludes,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,
@@ -80,6 +96,17 @@ public static class CourseFactory
     }
     public static Course Create(CourseEntity entity)
     {
+
+        List<Author> authors = [];
+
+        if (entity.Authors != null && entity.Authors.Count > 0)
+        {
+            foreach (var author in entity.Authors)
+            {
+                authors.Add(new Author { Name = author.Name });
+            }
+        }
+
         return new Course()
         {
             Id = entity.Id,
@@ -98,14 +125,16 @@ public static class CourseFactory
             NumberOfReviews = entity.NumberOfReviews,
             NumberOfLikes = entity.NumberOfLikes,
 
-            Authors = entity.Authors?.Select(a => new Author
-            {
-                Name = a.Name,
-            }).ToList(),
+            Authors = authors,
+
+            //Authors = entity.Authors?.Select(a => new Author
+            //{
+            //    Name = a.Name,
+            //}).ToList(),
             Content = entity.Content == null ? null! : new Content
             {
                 Description = entity.Content?.Description,
-                Courseincludes = entity.Content?.Courseincludes,
+                CourseIncludes = entity.Content?.CourseIncludes,
                 ProgramDetails = entity.Content?.ProgramDetails?.Select(pd => new ProgramDetails
                 {
                     Id = pd.Id,

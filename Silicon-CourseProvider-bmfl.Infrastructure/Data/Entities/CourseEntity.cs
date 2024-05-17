@@ -5,7 +5,7 @@ namespace Silicon_CourseProvider_bmfl.Infrastructure.Data.Entities;
 public class CourseEntity
 {
     [Key]
-    public string Id { get; set; } = null!;
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Title { get; set; } = null!;
     public string Ingress { get; set; } = null!;
     public string ImageUri { get; set; } = null!;
@@ -22,5 +22,4 @@ public class CourseEntity
     public int NumberOfLikes { get; set; }
     public virtual List<AuthorEntity>? Authors { get; set; } 
     public virtual ContentEntity? Content { get; set; }
-    //public virtual ProgramDetailsEntity? ProgramDetails { get; set; }
 }

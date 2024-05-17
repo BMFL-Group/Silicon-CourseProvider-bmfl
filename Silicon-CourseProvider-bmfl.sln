@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silicon-CourseProvider-bmfl", "Silicon-CourseProvider-bmfl\Silicon-CourseProvider-bmfl.csproj", "{421B6DD9-9CB6-4FC3-8818-E37C474425F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silicon-CourseProvider-bmfl", "Silicon-CourseProvider-bmfl\Silicon-CourseProvider-bmfl.csproj", "{421B6DD9-9CB6-4FC3-8818-E37C474425F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silicon-CourseProvider-bmfl.Infrastructure", "Silicon-CourseProvider-bmfl.Infrastructure\Silicon-CourseProvider-bmfl.Infrastructure.csproj", "{3EC4ED55-4B23-43E5-A1C6-02E9941A518A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silicon-CourseProvider-bmfl.Infrastructure", "Silicon-CourseProvider-bmfl.Infrastructure\Silicon-CourseProvider-bmfl.Infrastructure.csproj", "{3EC4ED55-4B23-43E5-A1C6-02E9941A518A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
