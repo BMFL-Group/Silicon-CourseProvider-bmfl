@@ -10,10 +10,9 @@ public class CourseQuery(ICourseService courseService)
     private readonly ICourseService _courseService = courseService;
 
     [GraphQLName("getCourses")]
-    public async Task<IEnumerable<Course>> GetCoursesAsync()
-    { 
-        var result = await _courseService.GetAllCoursesAsync();
-        return result;
+    public async Task<CourseResult> GetCoursesAsync(CourseFilters? filterQuery)
+    {
+        return await _courseService.GetAllCoursesAsync(filterQuery);
     }
 
     [GraphQLName("getCourseById")]
