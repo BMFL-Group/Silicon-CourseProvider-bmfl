@@ -99,13 +99,13 @@ public static class CourseFactory
 
         List<Author> authors = [];
 
-        if (entity.Authors != null && entity.Authors.Count > 0)
-        {
-            foreach (var author in entity.Authors)
-            {
-                authors.Add(new Author { Name = author.Name });
-            }
-        }
+        //if (entity.Authors != null && entity.Authors.Count > 0)
+        //{
+        //    foreach (var author in entity.Authors)
+        //    {
+        //        authors.Add(new Author { Name = author.Name });
+        //    }
+        //}
 
         return new Course()
         {
@@ -125,12 +125,12 @@ public static class CourseFactory
             NumberOfReviews = entity.NumberOfReviews,
             NumberOfLikes = entity.NumberOfLikes,
 
-            Authors = authors,
+            //Authors = authors,
 
-            //Authors = entity.Authors?.Select(a => new Author
-            //{
-            //    Name = a.Name,
-            //}).ToList(),
+            Authors = entity.Authors?.Select(a => new Author
+            {
+                Name = a.Name,
+            }).ToList(),
             Content = entity.Content == null ? null! : new Content
             {
                 Description = entity.Content?.Description,

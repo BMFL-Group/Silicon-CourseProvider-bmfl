@@ -5,6 +5,7 @@ using Silicon_CourseProvider_bmfl.Infrastructure.Data.Contexts;
 using Silicon_CourseProvider_bmfl.Infrastructure.Factories;
 using Silicon_CourseProvider_bmfl.Infrastructure.Interfaces;
 using Silicon_CourseProvider_bmfl.Infrastructure.Models;
+using System.Diagnostics;
 
 
 namespace Silicon_CourseProvider_bmfl.Infrastructure.Services;
@@ -93,8 +94,19 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
     public async Task<Course> GetCoursebyIdAsync(string id)
     {
         using var context = _contextFactory.CreateDbContext();
-        var course = await context.Courses.FirstOrDefaultAsync(x => x.Id == id);
-        return CourseFactory.Create(course!);
+        try
+        {
+            var course = await context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+            if (course != null)
+            {
+                return CourseFactory.Create(course);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        return null!;
     }
 
     public async Task<Course> UpdateCourseAsync(CourseUpdateRequest request)
