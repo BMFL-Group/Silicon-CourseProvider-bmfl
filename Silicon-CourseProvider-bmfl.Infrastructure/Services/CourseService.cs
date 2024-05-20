@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Silicon_CourseProvider_bmfl.Infrastructure.Data.Contexts;
+using Silicon_CourseProvider_bmfl.Infrastructure.Data.Entities;
 using Silicon_CourseProvider_bmfl.Infrastructure.Factories;
 using Silicon_CourseProvider_bmfl.Infrastructure.Interfaces;
 using Silicon_CourseProvider_bmfl.Infrastructure.Models;
@@ -25,25 +26,20 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         return CourseFactory.Create(entity);
     }
 
-
     public async Task<CourseResult> GetAllCoursesAsync(CourseFilters? filters)
     {
         using var context = _contextFactory.CreateDbContext();
+
+        IEnumerable<CourseEntity> results;
 
         if (filters != null)
         {
             var query = context.Courses.AsQueryable();
             string searchQuery = "";
 
-            if(filters.SearchQuery != null)
+            if (filters.SearchQuery != null)
             {
                 searchQuery = filters.SearchQuery.ToLower();
-            }
-
-            if (!string.IsNullOrEmpty(filters.Category) && filters.Category != "all")
-            {
-                // not working
-                //query = query.Where(x => x.Categories.Any(x => x.Equals(filters.Category)));
             }
 
             if (!string.IsNullOrEmpty(filters.SearchQuery))
@@ -54,8 +50,18 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
 
                 //authors do not work to search for yet.
             }
+            
+            results = query.AsEnumerable();
 
-            query = query.OrderBy(x => x.Title);
+            if (!string.IsNullOrEmpty(filters.Category) && filters.Category != "all")
+            {
+                // not working
+                results = results.Where(x => x.Categories!.Contains(filters.Category));
+            }
+
+            //set an authors filter here.
+
+            results = results.OrderBy(x => x.Title);
 
             var pagination = new Pagination
             {
@@ -65,13 +71,11 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
                 CurrentPage = filters.PageNumber
             };
 
-            if (query != null && query.Count() > 0)
-            {
-                pagination.TotalItems = query.Count();
-            }
+            var courses = CourseFactory.Create(results.Skip((filters!.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize));
 
+            pagination.TotalItems = courses.Count();
             pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (double)pagination.PageSize);
-            var courses = CourseFactory.Create(await query.Skip((filters!.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize).ToListAsync());
+
 
             return new CourseResult
             {
@@ -90,6 +94,13 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         }
 
     }
+
+    //public async IQueryable<Course> SetQueryableCourse()
+    //{
+    //    var query = context.Courses.AsQueryable();
+
+    //    return query;
+    //}
 
     public async Task<Course> GetCoursebyIdAsync(string id)
     {
