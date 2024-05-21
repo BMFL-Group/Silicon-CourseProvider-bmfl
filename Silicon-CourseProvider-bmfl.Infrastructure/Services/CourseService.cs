@@ -104,110 +104,6 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         };
     }
 
-
-    #region QUERY LOGIC - NOT CURRENTLY USED
-
-    
-
-    public CourseResult SetCourseResult(CourseFilters? filters)
-    {
-        //var context = SetContext();
-        //var query = SetQueryableCourse(context);
-
-
-        //var searchQuery = ConfigureSearchQuery(filters.SearchQuery);
-
-        //if (!string.IsNullOrEmpty(filters.SearchQuery))
-        //{    
-        //    query = SearchForTitle(query, searchQuery);
-        //    if (query.Count() == 0)
-        //    {
-        //        query = SetQueryableCourse(context);
-        //        results = query.AsEnumerable();
-
-
-
-        //        results = SearchForAuthors(results, searchQuery);
-        //        return SetCourseResult(results, filters.PageNumber, filters.PageSize);
-        //    }
-        //    else
-        //    {
-        //        results = query.AsEnumerable();
-
-        //        if (!string.IsNullOrEmpty(filters.Category) && filters.Category != "all")
-        //        {
-        //            // Works
-        //            results = SetCategory(results, filters.Category);
-        //            //results = results.Where(x => x.Categories!.Contains(filters.Category));
-        //        }
-        //        return SetCourseResult(results, filters.PageNumber, filters.PageSize);
-        //    }
-        //}
-
-        //results = results.OrderBy(x => x.Title);
-
-        //var pagination = new Pagination
-        //{
-        //    PageNumber = pageNumber,
-        //    PageSize = pageSize,
-        //    TotalItems = 0,
-        //    CurrentPage = pageNumber
-        //};
-
-
-        //pagination.TotalItems = results.Count();
-        //pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (double)pagination.PageSize);
-
-        //var courses = CourseFactory.Create(results.Skip((pageNumber - 1) * pagination.PageSize).Take(pagination.PageSize));
-
-        return new CourseResult
-        {
-            //Courses = courses,
-            //Pagination = pagination
-            
-        };
-
-
-    }
-    private IEnumerable<CourseEntity> SetCategory(IEnumerable<CourseEntity> results, string category)
-    {
-        results = results.Where(x => x.Categories!.Contains(category));
-        return results;
-    }
-
-    private IEnumerable<CourseEntity> SearchForAuthors(IEnumerable<CourseEntity> results, string searchQuery)
-    {
-        results = results.Where(x => x.Authors!.Any(x => x.Name.ToLower().Contains(searchQuery)));
-        return results;
-    }
-
-    private IQueryable<CourseEntity> SearchForTitle(IQueryable<CourseEntity> query,string searchQuery)
-    {
-        // Works on its own - not with authors.
-        return query = query.Where(x => x.Title.ToLower().Contains(searchQuery));
-    }
-
-    private string ConfigureSearchQuery(string? filterSearchQuery)
-    {   
-        if (filterSearchQuery != null)
-        {
-            return filterSearchQuery.ToLower();
-        }
-        else
-        {
-            return null!;
-        }
-    }   
-
-    public IQueryable<CourseEntity> SetQueryableCourse(DataContext context)
-    {        
-        var query = context.Courses.AsQueryable();
-        return query;
-    }
-    #endregion
-
-
-
     public async Task<Course> GetCoursebyIdAsync(string id)
     {
         using var context = _contextFactory.CreateDbContext();
@@ -245,6 +141,7 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         
         return null!;                
     }
+    
     public async Task<bool> DeleteCourseAsync(string id)
     {
         using var context = _contextFactory.CreateDbContext();
