@@ -27,7 +27,8 @@ var host = new HostBuilder()
         services.AddGraphQLFunction()
             .AddQueryType<CourseQuery>()
             .AddType<CourseType>()
-            .AddMutationType<CourseMutation>();
+            .AddMutationType<CourseMutation>()
+            .AddFiltering();            
 
         var sp = services.BuildServiceProvider();
         using var scope = sp.CreateScope();

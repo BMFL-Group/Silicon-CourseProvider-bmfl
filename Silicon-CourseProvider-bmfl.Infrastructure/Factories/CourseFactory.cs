@@ -120,7 +120,7 @@ public static class CourseFactory
         };
     }
 
-    public static IEnumerable<Course> Create(List<CourseEntity> entities)
+    public static IEnumerable<Course> Create(IEnumerable<CourseEntity> entities)
     {
         var courses = new List<Course>();
 

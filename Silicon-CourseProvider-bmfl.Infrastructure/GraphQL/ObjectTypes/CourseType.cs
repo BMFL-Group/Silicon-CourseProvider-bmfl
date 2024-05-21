@@ -13,7 +13,7 @@ public class CourseType : ObjectType<CourseEntity>
         descriptor.Field(c => c.AltText).Type<StringType>();
         descriptor.Field(c => c.BestSeller).Type<BooleanType>();
         descriptor.Field(c => c.IsDigital).Type<BooleanType>();
-        descriptor.Field(c => c.Categories).Type<ListType<StringType>>();
+        descriptor.Field(c => c.Categories).Type<ListType<StringType>>().UseFiltering();
         descriptor.Field(c => c.Currency).Type<StringType>();
         descriptor.Field(c => c.Price).Type<DecimalType>();
         descriptor.Field(c => c.DiscountPrice).Type<DecimalType>();
@@ -21,7 +21,7 @@ public class CourseType : ObjectType<CourseEntity>
         descriptor.Field(c => c.RatingInPercentage).Type<IntType>();
         descriptor.Field(c => c.NumberOfReviews).Type<IntType>();
         descriptor.Field(c => c.NumberOfLikes).Type<IntType>();
-        descriptor.Field(c => c.Authors).Type<ListType<AuthorType>>();
+        descriptor.Field(c => c.Authors).Type<ListType<AuthorType>>().UseFiltering();
         descriptor.Field(c => c.Content).Type<ContentType>();
     }
 }
