@@ -71,11 +71,11 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
                 CurrentPage = filters.PageNumber
             };
 
-            var courses = CourseFactory.Create(results.Skip((filters!.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize));
 
-            pagination.TotalItems = courses.Count();
+            pagination.TotalItems = results.Count();
             pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (double)pagination.PageSize);
 
+            var courses = CourseFactory.Create(results.Skip((filters!.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize));
 
             return new CourseResult
             {
