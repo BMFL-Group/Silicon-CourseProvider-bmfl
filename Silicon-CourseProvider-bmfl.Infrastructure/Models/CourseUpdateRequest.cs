@@ -30,6 +30,8 @@ public class ContentUpdateRequest
 {
     public string? Description { get; set; }
     public string[]? CourseIncludes { get; set; }
+    public string[]? WhatYouLearn { get; set; }
+
     public virtual List<ProgramDetailsUpdateRequest>? ProgramDetails { get; set; }
 }
 
