@@ -29,6 +29,7 @@ public class ContentCreateRequest
 {
     public string? Description { get; set; }
     public string[]? CourseIncludes { get; set; }
+    public string[]? WhatYouLearn { get; set; }
     public virtual List<ProgramDetailsCreateRequest>? ProgramDetails { get; set; }
 }
 

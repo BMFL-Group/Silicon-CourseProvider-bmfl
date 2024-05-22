@@ -33,6 +33,7 @@ public static class CourseFactory
             {
                 Description = request.Content?.Description,
                 CourseIncludes = request.Content?.CourseIncludes,
+                WhatYouLearn = request.Content?.WhatYouLearn,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,
@@ -71,6 +72,7 @@ public static class CourseFactory
             {
                 Description = request.Content?.Description,
                 CourseIncludes = request.Content?.CourseIncludes,
+                WhatYouLearn = request.Content?.WhatYouLearn,
                 ProgramDetails = request.Content?.ProgramDetails?.Select(pd => new ProgramDetailsEntity
                 {
                     Id = pd.Id,
@@ -109,6 +111,7 @@ public static class CourseFactory
             {
                 Description = entity.Content?.Description,
                 CourseIncludes = entity.Content?.CourseIncludes,
+                WhatYouLearn = entity.Content?.WhatYouLearn,
 
                 ProgramDetails = entity.Content?.ProgramDetails?.Select(pd => new ProgramDetails
                 {
