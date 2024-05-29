@@ -180,17 +180,27 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
         }
         return null!;             
     }
-    
+
     public async Task<bool> DeleteCourseAsync(string id)
     {
-        using var context = _contextFactory.CreateDbContext();
-        var entity = await context.Courses.FirstOrDefaultAsync(c => c.Id == id);
-        if (entity != null)
+        try
         {
-            context.Courses.Remove(entity);
-            await context.SaveChangesAsync();
+            using var context = _contextFactory.CreateDbContext();
+            var entity = await context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            if (entity != null)
+            {
+                context.Courses.Remove(entity);
+                var result = await context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    return true;
+                }
+            }
         }
-            
-        return true;        
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        return false;
     }
 }
