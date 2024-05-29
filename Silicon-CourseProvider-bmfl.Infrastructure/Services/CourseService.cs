@@ -124,22 +124,61 @@ public class CourseService(IDbContextFactory<DataContext> context, ILogger<Cours
 
     public async Task<Course> UpdateCourseAsync(CourseUpdateRequest request)
     {
-        using var context = _contextFactory.CreateDbContext();
-        var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id);
-        if (existingEntity != null)
+        try
         {
-            var updatedEntity = CourseFactory.Create(request);
-            updatedEntity.Id = existingEntity.Id;
-            context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-            context.Entry(existingEntity).State = EntityState.Modified;
-            var result = await context.SaveChangesAsync();
-            if(result == 1)
+            using var context = _contextFactory.CreateDbContext();
+            var existingEntity = await context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (existingEntity != null)
             {
-                return CourseFactory.Create(updatedEntity);
+
+                List<AuthorEntity> authors = [];
+                foreach (var author in request.Authors)
+                {
+                    authors.Add(new AuthorEntity { Name = author.Name });
+                }
+                List<ProgramDetailsEntity> programDetails = [];
+                foreach (var programDetail in request.Content.ProgramDetails)
+                {
+                    programDetails.Add(new ProgramDetailsEntity { Id = programDetail.Id, Title = programDetail.Title, Description = [programDetail.Description[0]] });
+                }
+
+                existingEntity.Title = request.Title;
+                existingEntity.Ingress = request.Ingress;
+                existingEntity.ImageUri = request.ImageUri;
+                existingEntity.AltText = request.AltText;
+                existingEntity.BestSeller = request.BestSeller;
+                existingEntity.IsDigital = request.IsDigital;
+                existingEntity.Categories = request.Categories;
+                existingEntity.Currency = request.Currency;
+                existingEntity.Price = request.Price;
+                existingEntity.DiscountPrice = request.DiscountPrice;
+                existingEntity.LengthInHours = request.LengthInHours;
+                existingEntity.RatingInPercentage = request.RatingInPercentage;
+                existingEntity.NumberOfReviews = request.NumberOfReviews;
+                existingEntity.NumberOfLikes = request.NumberOfLikes;
+                existingEntity.Authors = authors;
+                existingEntity.Content = new()
+                {
+                    Description = request.Content.Description,
+                    CourseIncludes = request.Content.CourseIncludes,
+                    WhatYouLearn = request.Content.WhatYouLearn,
+                    ProgramDetails = programDetails
+                };
+
+                //context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+                context.Entry(existingEntity).State = EntityState.Modified;
+                var result = await context.SaveChangesAsync();
+                if(result == 1)
+                {
+                    return CourseFactory.Create(existingEntity);
+                }
             }
         }
-        
-        return null!;                
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        return null!;             
     }
     
     public async Task<bool> DeleteCourseAsync(string id)

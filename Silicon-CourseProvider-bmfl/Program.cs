@@ -20,6 +20,7 @@ var host = new HostBuilder()
         {
             x.UseCosmos(Environment.GetEnvironmentVariable("COSMOS_URI")!, Environment.GetEnvironmentVariable("COSMOS_DBNAME")!)
             .UseLazyLoadingProxies();
+            x.EnableSensitiveDataLogging();
         });
 
         services.AddScoped<ICourseService, CourseService>();

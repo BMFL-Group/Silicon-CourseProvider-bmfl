@@ -11,22 +11,22 @@ public class CourseMutation(ICourseService courseService)
     [GraphQLName("createCourse")]
     public async Task<Course> CreateCourseAsync(CourseCreateRequest request)
     {
-                var result = await _courseService.CreateCourseAsync(request);
-                return result;
+            var result = await _courseService.CreateCourseAsync(request);
+        return result;
     }
 
     [GraphQLName("updateCourse")]
     public async Task<Course> UpdateCourseAsync(CourseUpdateRequest request)
     {
-                var result = await _courseService.UpdateCourseAsync(request);
-                return result;
+        var result = await _courseService.UpdateCourseAsync(request);
+        return result;
     }
 
     [GraphQLName("deleteCourse")]
-    public async Task<bool> DeleteCourseAsync(string id)
+    public async Task<bool> DeleteCourseAsync(string courseId)
     {
-                var result = await _courseService.DeleteCourseAsync(id);
-                return result;
+        var result = await _courseService.DeleteCourseAsync(courseId);
+        return result;
     }
 
 }
